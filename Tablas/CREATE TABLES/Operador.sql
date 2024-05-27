@@ -1,17 +1,18 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[TipoLlamada]    Script Date: 23/5/2024 22:30:09 ******/
+/****** Object:  Table [dbo].[Operador]    Script Date: 26/5/2024 23:56:00 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[TipoLlamada](
-	[Id] [int] NOT NULL,
-	[isLocal] [bit] NOT NULL,
-PRIMARY KEY CLUSTERED 
+CREATE TABLE [dbo].[Operador](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](64) NOT NULL,
+	[digitoPrefijo] [int] NOT NULL,
+ CONSTRAINT [PK_Operador] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]

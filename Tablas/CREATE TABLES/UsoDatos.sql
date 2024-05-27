@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[UsoDatos]    Script Date: 23/5/2024 22:29:21 ******/
+/****** Object:  Table [dbo].[UsoDatos]    Script Date: 26/5/2024 23:57:11 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -10,10 +10,9 @@ GO
 
 CREATE TABLE [dbo].[UsoDatos](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Fecha] [datetime] NOT NULL,
 	[Numero] [int] NOT NULL,
-	[QGigas] [float] NOT NULL,
-	[Fecha] [date] NOT NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_UsoDatos] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]

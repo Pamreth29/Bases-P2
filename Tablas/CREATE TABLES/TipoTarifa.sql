@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[TipoTarifa]    Script Date: 23/5/2024 22:29:50 ******/
+/****** Object:  Table [dbo].[TipoTarifa]    Script Date: 26/5/2024 23:56:47 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,7 +11,7 @@ GO
 CREATE TABLE [dbo].[TipoTarifa](
 	[Id] [int] NOT NULL,
 	[Nombre] [varchar](64) NOT NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_TipoTarifa] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
