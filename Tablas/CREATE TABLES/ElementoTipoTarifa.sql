@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[ElementoTipoTarifa]    Script Date: 26/5/2024 23:55:18 ******/
+/****** Object:  Table [dbo].[ElementoTipoTarifa]    Script Date: 3/6/2024 02:47:58 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[ElementoTipoTarifa](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[ID_TipoTarifa] [int] NOT NULL,
 	[Valor] [int] NOT NULL,
-	[ID_TipoElemento] [int] NULL,
+	[ID_TipoElemento] [int] NOT NULL,
  CONSTRAINT [PK_ElementoTipoTarifa] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -32,12 +32,5 @@ REFERENCES [dbo].[TipoTarifa] ([Id])
 GO
 
 ALTER TABLE [dbo].[ElementoTipoTarifa] CHECK CONSTRAINT [FK_ElementoTipoTarifa_TipoTarifa]
-GO
-
-ALTER TABLE [dbo].[ElementoTipoTarifa]  WITH CHECK ADD  CONSTRAINT [FK_ElementoTipoTarifa_TipoUnidad] FOREIGN KEY([ID_TipoTarifa])
-REFERENCES [dbo].[TipoUnidad] ([Id])
-GO
-
-ALTER TABLE [dbo].[ElementoTipoTarifa] CHECK CONSTRAINT [FK_ElementoTipoTarifa_TipoUnidad]
 GO
 

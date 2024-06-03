@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[TipoRelacionFamiliar]    Script Date: 26/5/2024 23:56:38 ******/
+/****** Object:  Table [dbo].[TipoRelacionFamiliar]    Script Date: 3/6/2024 02:49:26 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -10,7 +10,7 @@ GO
 
 CREATE TABLE [dbo].[TipoRelacionFamiliar](
 	[Id] [int] NOT NULL,
-	[Nombre] [int] NOT NULL,
+	[Nombre] [varchar](64) NOT NULL,
  CONSTRAINT [PK_TipoRelacionFamiliar] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

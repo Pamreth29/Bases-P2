@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[DetalleLlamadaEstadoCuenta]    Script Date: 26/5/2024 23:54:54 ******/
+/****** Object:  Table [dbo].[DetalleLlamadaEstadoCuenta]    Script Date: 3/6/2024 02:47:09 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -13,8 +13,8 @@ CREATE TABLE [dbo].[DetalleLlamadaEstadoCuenta](
 	[ID_EstadoCuentaOperador] [int] NOT NULL,
 	[HoraInicio] [datetime] NOT NULL,
 	[HoraFin] [datetime] NOT NULL,
-	[NumeroIniciaLlamada] [int] NOT NULL,
-	[NumeroContestaLlamada] [int] NOT NULL,
+	[NumeroIniciaLlamada] [varchar](64) NOT NULL,
+	[NumeroContestaLlamada] [varchar](64) NOT NULL,
  CONSTRAINT [PK_DetalleLlamadaEstadoCuenta] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

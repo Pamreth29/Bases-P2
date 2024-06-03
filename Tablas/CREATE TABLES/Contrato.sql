@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[Contrato]    Script Date: 26/5/2024 23:53:40 ******/
+/****** Object:  Table [dbo].[Contrato]    Script Date: 3/6/2024 02:46:44 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,7 +12,8 @@ CREATE TABLE [dbo].[Contrato](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[ID_Cliente] [int] NOT NULL,
 	[ID_TipoTarifa] [int] NOT NULL,
-	[Numero] [int] NOT NULL,
+	[Numero] [varchar](64) NOT NULL,
+	[Fecha] [date] NOT NULL,
  CONSTRAINT [PK_Contrato] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -33,5 +34,4 @@ GO
 
 ALTER TABLE [dbo].[Contrato] CHECK CONSTRAINT [FK_Contrato_TipoTarifa]
 GO
-
 

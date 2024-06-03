@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[Clientes]    Script Date: 26/5/2024 23:53:02 ******/
+/****** Object:  Table [dbo].[Clientes]    Script Date: 3/6/2024 02:46:35 ******/
 SET ANSI_NULLS ON
 GO
 

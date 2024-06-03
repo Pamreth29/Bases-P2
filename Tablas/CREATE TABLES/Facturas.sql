@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[Facturas]    Script Date: 26/5/2024 23:55:37 ******/
+/****** Object:  Table [dbo].[Facturas]    Script Date: 3/6/2024 02:48:14 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,8 +11,8 @@ GO
 CREATE TABLE [dbo].[Facturas](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[ID_Contrato] [int] NOT NULL,
-	[FechaEmision] [datetime] NOT NULL,
-	[FechaPago] [datetime] NOT NULL,
+	[FechaEmision] [date] NOT NULL,
+	[FechaPago] [date] NOT NULL,
 	[TotalPreIVA] [int] NOT NULL,
 	[TotalPostIVA] [float] NOT NULL,
 	[MultaPorAtraso] [int] NOT NULL,

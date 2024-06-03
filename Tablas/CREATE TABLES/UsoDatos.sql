@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[UsoDatos]    Script Date: 26/5/2024 23:57:11 ******/
+/****** Object:  Table [dbo].[UsoDatos]    Script Date: 3/6/2024 02:49:53 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,12 +9,13 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[UsoDatos](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Fecha] [datetime] NOT NULL,
-	[Numero] [int] NOT NULL,
- CONSTRAINT [PK_UsoDatos] PRIMARY KEY CLUSTERED 
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Fecha] [date] NULL,
+	[Numero] [varchar](64) NULL,
+	[QGigas] [float] NULL,
+PRIMARY KEY CLUSTERED 
 (
-	[Id] ASC
+	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
