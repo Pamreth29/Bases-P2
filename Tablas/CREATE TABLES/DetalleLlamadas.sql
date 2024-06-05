@@ -1,7 +1,7 @@
 USE [Proyecto2]
 GO
 
-/****** Object:  Table [dbo].[DetalleLlamadas]    Script Date: 3/6/2024 02:47:28 ******/
+/****** Object:  Table [dbo].[DetalleLlamadas]    Script Date: 4/6/2024 21:32:17 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,83 +9,44 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[DetalleLlamadas](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[ID_DetalleFactura] [int] NOT NULL,
-	[TotalMinutosBase] [int] NOT NULL,
-	[TotalMinutosAdicional] [int] NOT NULL,
-	[TotalMinutosNocturnos] [int] NOT NULL,
-	[TotalMinutos800] [int] NOT NULL,
-	[TotalMinutos900] [int] NOT NULL,
-	[TotalMinutosEmpresaX] [int] NOT NULL,
-	[TotalMinutosEmpresaY] [int] NOT NULL,
-	[TotalMinutosNocturnosX] [int] NOT NULL,
-	[TotalMinutosNocturnosY] [int] NOT NULL,
-	[TotalMinutos911] [int] NOT NULL,
-	[TotalMinutos110] [int] NOT NULL,
-	[TotalMinutosNocturnos800] [int] NOT NULL,
-	[TotalMinutosNocturnos900] [int] NOT NULL,
-	[TotalMinutosNocturnos911] [int] NOT NULL,
-	[TotalMinutosNocturnos110] [int] NOT NULL,
-	[TotalMinutosFamiliar] [int] NOT NULL,
-	[TotalMinutos] [int] NOT NULL,
-PRIMARY KEY CLUSTERED 
+	[ID_Llamada] [int] NOT NULL,
+	[ID_TipoMinutos1] [int] NOT NULL,
+	[ID_TipoMinutos2] [int] NULL,
+	[Duracion] [int] NOT NULL,
+ CONSTRAINT [PK_DetalleLlamadas] PRIMARY KEY CLUSTERED 
 (
-	[ID_DetalleFactura] ASC
+	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosBase]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosAdicional]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosNocturnos]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutos800]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutos900]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosEmpresaX]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosEmpresaY]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosNocturnosX]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosNocturnosY]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutos911]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutos110]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosNocturnos800]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosNocturnos900]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosNocturnos911]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosNocturnos110]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutosFamiliar]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas] ADD  DEFAULT ((0)) FOR [TotalMinutos]
-GO
-
-ALTER TABLE [dbo].[DetalleLlamadas]  WITH CHECK ADD FOREIGN KEY([ID_DetalleFactura])
+ALTER TABLE [dbo].[DetalleLlamadas]  WITH CHECK ADD  CONSTRAINT [FK_DetalleLlamadas_DetalleFactura] FOREIGN KEY([ID_DetalleFactura])
 REFERENCES [dbo].[DetalleFactura] ([ID_Facturas])
+GO
+
+ALTER TABLE [dbo].[DetalleLlamadas] CHECK CONSTRAINT [FK_DetalleLlamadas_DetalleFactura]
+GO
+
+ALTER TABLE [dbo].[DetalleLlamadas]  WITH CHECK ADD  CONSTRAINT [FK_DetalleLlamadas_Llamadas] FOREIGN KEY([ID_Llamada])
+REFERENCES [dbo].[Llamadas] ([Id])
+GO
+
+ALTER TABLE [dbo].[DetalleLlamadas] CHECK CONSTRAINT [FK_DetalleLlamadas_Llamadas]
+GO
+
+ALTER TABLE [dbo].[DetalleLlamadas]  WITH CHECK ADD  CONSTRAINT [FK_DetalleLlamadas_TipoMinutos] FOREIGN KEY([ID_TipoMinutos1])
+REFERENCES [dbo].[TipoMinutos] ([Id])
+GO
+
+ALTER TABLE [dbo].[DetalleLlamadas] CHECK CONSTRAINT [FK_DetalleLlamadas_TipoMinutos]
+GO
+
+ALTER TABLE [dbo].[DetalleLlamadas]  WITH CHECK ADD  CONSTRAINT [FK_DetalleLlamadas_TipoMinutos1] FOREIGN KEY([ID_TipoMinutos2])
+REFERENCES [dbo].[TipoMinutos] ([Id])
+GO
+
+ALTER TABLE [dbo].[DetalleLlamadas] CHECK CONSTRAINT [FK_DetalleLlamadas_TipoMinutos1]
 GO
 

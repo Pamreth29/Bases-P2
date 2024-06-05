@@ -1,7 +1,7 @@
-USE [Proyecto2]
+USE [ProyectoTelefonos]
 GO
 
-/****** Object:  Table [dbo].[Facturas]    Script Date: 3/6/2024 02:48:14 ******/
+/****** Object:  Table [dbo].[Facturas]    Script Date: 5/6/2024 00:24:34 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -13,12 +13,8 @@ CREATE TABLE [dbo].[Facturas](
 	[ID_Contrato] [int] NOT NULL,
 	[FechaEmision] [date] NOT NULL,
 	[FechaPago] [date] NOT NULL,
-	[TotalPreIVA] [int] NOT NULL,
-	[TotalPostIVA] [float] NOT NULL,
-	[MultaPorAtraso] [int] NOT NULL,
 	[TotalAPagar] [int] NOT NULL,
 	[Estado] [bit] NOT NULL,
-	[CostoXMinuto] [int] NOT NULL,
  CONSTRAINT [PK_Facturas] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
