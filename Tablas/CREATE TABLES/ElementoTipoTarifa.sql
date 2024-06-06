@@ -1,7 +1,7 @@
-USE [Proyecto2]
+USE [Telefoneria]
 GO
 
-/****** Object:  Table [dbo].[ElementoTipoTarifa]    Script Date: 3/6/2024 02:47:58 ******/
+/****** Object:  Table [dbo].[ElementoTipoTarifa]    Script Date: 6/6/2024 01:52:47 ******/
 SET ANSI_NULLS ON
 GO
 
