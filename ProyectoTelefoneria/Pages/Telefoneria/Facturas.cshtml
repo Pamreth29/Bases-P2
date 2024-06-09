@@ -1,0 +1,107 @@
+﻿@page
+@model ProyectoTelefoneria.Pages.Telefoneria.FacturasModel
+@{
+    ViewData["Title"] = "Facturas";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .prominent-text {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            margin-top: 30px;
+        }
+
+            .table-container table {
+                width: 100%;
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+                .table-container table th,
+                .table-container table td {
+                    padding: 8px;
+                    border-bottom: 1px solid #dee2e6;
+                    text-align: left;
+                }
+
+                .table-container table th {
+                    background-color: #f8f9fa;
+                    color: #495057;
+                    font-weight: bold;
+                    vertical-align: middle;
+                }
+
+                .table-container table tbody tr:hover {
+                    background-color: #f8f9fa;
+                }
+
+        .btn-consultar {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 4px;
+            color: #fff;
+            background-color: #639dd4; /* Cambio de color */
+            border-color: #639dd4; /* Cambio de color */
+            transition: all 0.3s ease;
+        }
+
+            .btn-consultar:hover {
+                background-color: #95b5cc; /* Cambio de color al hacer hover */
+                border-color: #95b5cc; /* Cambio de color al hacer hover */
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="prominent-text">
+            Número Consultado: @Model.Numero
+        </div>
+        <a asp-page="/Index" class="btn btn-dark">Volver</a> <!-- Botón de Volver -->
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha Factura</th>
+                        <th>Multa Atraso Pago</th>
+                        <th>Total Antes IVA</th>
+                        <th>Total A Pagar</th>
+                        <th>Fecha Límite Pago</th>
+                        <th>Detalle elementos cobro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var factura in Model.listaFacturas)
+                    {
+                        <tr>
+                            <td>@factura.FechaFactura.ToString("yyyy-MM-dd")</td>
+                            <td>@factura.MultaAtrasoPago</td>
+                            <td>@factura.TotalAntesIVA</td>
+                            <td>@factura.TotalAPagar</td>
+                            <td>@(factura.FechaLimitePago.ToString("yyyy-MM-dd") == "0001-01-01" ? "No tiene fecha" : factura.FechaLimitePago.ToString("yyyy-MM-dd"))</td>
+                            <td>
+                                <form method="post" asp-page-handler="Detalle" asp-route-numero="@Model.Numero">
+                                    <button type="submit" class="btn btn-primary btn-consultar">Consultar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

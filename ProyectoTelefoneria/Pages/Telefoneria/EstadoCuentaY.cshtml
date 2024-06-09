@@ -1,0 +1,83 @@
+﻿@page
+@model ProyectoTelefoneria.Pages.Telefoneria.EstadoCuentaYModel
+@{
+    ViewData["Title"] = "Estados de Cuenta Empresa Y";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estados de Cuenta Empresa X</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">Estados de Cuenta Empresa Y</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Total Min IN</th>
+                    <th>Total Min OUT</th>
+                    <th>Fecha Corte</th>
+                    <th>Detalle Estado Cuenta</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var estado in Model.listaEstadosCuenta)
+                {
+                    <tr data-id="@estado.id">
+                        <td>@estado.TotalMinIN</td>
+                        <td>@estado.TotalMinOUT</td>
+                        <td>@estado.FechaCorte.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <button type="button" class="btn btn-primary ver-detalles">Ver Detalles</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('facturasForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = new FormData(this);
+
+            fetch('@Url.Page("/Index")', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        alert('An error occurred while processing your request.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while processing your request.');
+                });
+        });
+    </script>
+    <script>
+        // Función para manejar el clic en el botón "Ver detalles"
+        document.querySelectorAll('.ver-detalles').forEach(button => {
+            button.addEventListener('click', function () {
+                // Obtener la fila padre
+                const row = this.closest('tr');
+                // Obtener el ID de la fila seleccionada
+                const id = row.dataset.id;
+                // Redireccionar con el ID como parámetro de la URL
+                window.location.href = '@Url.Page("DetalleEstadoCuentaY", new { id = "__ID__" })'.replace('__ID__', id);
+            });
+        });
+    </script>
+
+</body>
+</html>
