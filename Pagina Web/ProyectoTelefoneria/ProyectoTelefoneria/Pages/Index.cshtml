@@ -1,0 +1,138 @@
+﻿@page
+@model ProyectoTelefoneria.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 600px; /* Ajusta este valor según tus necesidades */
+            margin-bottom: 20px;
+        }
+
+        .form-inline .form-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-inline .form-control {
+            margin-right: 10px;
+        }
+
+        .btn-company {
+            margin: 0 5px; /* Reduce el espacio entre los botones */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card-container">
+            <!-- Card 1: Consultar Facturas -->
+            <div class="card">
+                <div class="card-header text-center" style="background-color: #789c81; color: white;">
+                    <h3>Consultar Facturas</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="facturasForm" class="form-inline">
+                        <input type="hidden" name="FormType" value="Facturas" />
+                        <div class="form-group mb-3 w-100">
+                            <label class="col-sm-3 col-form-label">Número</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control w-100" name="Numero" value="@Model.Numero" id="Numero">
+                            </div>
+                            <div class="col-sm-3 text-right">
+                                <button type="submit" class="btn" style="background-color: #a7dbb5; color: black;">Ver facturas</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Card 2: Consultar Estado Cuenta -->
+            <div class="card">
+                <div class="card-header text-center" style="background-color: #486a94; color: white;">
+                    <h3>Consultar Estado Cuenta</h3>
+                </div>
+                <div class="card-body text-center">
+                    <form method="POST" id="estadoCuentaForm">
+                        <input type="hidden" name="FormType" value="EstadoCuenta" />
+                        <div class="row mb-3 justify-content-center">
+                            <div class="col-sm-6 mb-2 text-center">
+                                <button type="submit" class="btn btn-company" style="background-color: #b6d0e3; color: black;" onclick="document.getElementById('empresaValue').value = 'X'">Empresa X</button>
+                                <button type="submit" class="btn btn-company" style="background-color: #b6d0e3; color: black;" onclick="document.getElementById('empresaValue').value = 'Y'">Empresa Y</button>
+                            </div>
+                        </div>
+                        <!-- Campo oculto para almacenar el valor del botón presionado -->
+                        <input type="hidden" name="Empresa" id="empresaValue" value="" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript for handling the form submission and redirect -->
+    <script>
+        document.getElementById('facturasForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = new FormData(this);
+
+            fetch('@Url.Page("/Index")', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        alert('An error occurred while processing your request.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while processing your request. Details: ' + error);
+                });
+        });
+
+        document.getElementById('estadoCuentaForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = new FormData(this);
+
+            fetch('@Url.Page("/Index")', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        alert('An error occurred while processing your request.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while processing your request. Details: ' + error);
+                });
+        });
+    </script>
+</body>
+</html>

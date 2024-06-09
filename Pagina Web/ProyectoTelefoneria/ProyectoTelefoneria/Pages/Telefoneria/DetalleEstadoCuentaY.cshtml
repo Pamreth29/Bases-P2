@@ -1,0 +1,57 @@
+﻿@page
+@model ProyectoTelefoneria.Pages.Telefoneria.DetalleEstadoCuentaYModel
+@{
+    ViewData["Title"] = "Detalle Estado de Cuenta";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Estado de Cuenta</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos CSS aquí */
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Contenido HTML aquí -->
+        <!-- Título para la primera tabla -->
+        <h2 class="small-title">Detalle de las Llamadas</h2>
+        <div class="table-container mt-2">
+            <!-- Ajuste para acercar la tabla al título -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Número De</th>
+                        <th>Número A</th>
+                        <th>Tipo de Llamada</th>
+                        <th>Fecha y Hora de Inicio</th>
+                        <th>Fecha y Hora de Fin</th>
+                        <th>Duración</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var estadoCuenta in Model.listaEstadosDeCuenta)
+                    {
+                        <tr>
+                            <td>@estadoCuenta.NumeroDe</td>
+                            <td>@estadoCuenta.NumeroA</td>
+                            <td>@estadoCuenta.TipoLlamada</td>
+                            <td>@estadoCuenta.FechaHora_Inicio.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>@estadoCuenta.FechaHora_Fin.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>@estadoCuenta.Duracion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

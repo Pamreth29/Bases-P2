@@ -1,0 +1,150 @@
+﻿@page
+@model ProyectoTelefoneria.Pages.Telefoneria.DetalleElementosCobroModel
+@{
+    ViewData["Title"] = "Detalle Elementos Cobro";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Elementos Cobro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .prominent-text {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            margin-top: 30px;
+        }
+
+            .table-container table {
+                width: 100%;
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+                .table-container table th,
+                .table-container table td {
+                    padding: 8px;
+                    border-bottom: 1px solid #dee2e6;
+                    text-align: left;
+                }
+
+                .table-container table th {
+                    background-color: #f8f9fa;
+                    color: #495057;
+                    font-weight: bold;
+                    vertical-align: middle;
+                }
+
+                .table-container table tbody tr:hover {
+                    background-color: #f8f9fa;
+                }
+
+        .small-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 10px; /* Ajuste para acercar el título */
+            margin-bottom: 5px; /* Ajuste para acercar el título */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="prominent-text">
+            Número Consultado: @Model.Numero
+        </div>
+        <!-- Título para la primera tabla -->
+        <h2 class="small-title">Detalle de Elementos de Cobro</h2>
+        <div class="table-container mt-2">
+            <!-- Ajuste para acercar la tabla al título -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tarifa Básica</th>
+                        <th>Total Gigas Adicionales</th>
+                        <th>Total Minutos Familiares</th>
+                        <th>Total Cobro 911</th>
+                        <th>Total Cobro 110</th>
+                        <th>Total Cobro 900</th>
+                        <th>Total Cobro 800</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var factura in Model.listaDetalleEC)
+                    {
+                        <tr>
+                            <td>@factura.TarifaBasica</td>
+                            <td>@factura.QTotalGigasAdicionales</td>
+                            <td>@factura.QTotalMinutosFamiliares</td>
+                            <td>@factura.TotalCobro911</td>
+                            <td>@factura.TotalCobro110</td>
+                            <td>@factura.TotalCobro900</td>
+                            <td>@factura.TotalCobro800</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Título para la segunda tabla -->
+        <h2 class="small-title">Detalle Llamadas</h2>
+        <div class="table-container mt-2">
+            <!-- Ajuste para acercar la tabla al título -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha Hora Inicio</th>
+                        <th>Fecha Hora Fin</th>
+                        <th>Número llamado</th>
+                        <th>Duración</th>
+                        <th>Es Gratis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var llamada in Model.listaLlamadas)
+                    {
+                        <tr>
+                            <td>@llamada.FechaHora_Inicio.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>@llamada.FechaHora_Fin.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>@llamada.NumeroA</td>
+                            <td>@llamada.Duracion</td>
+                            <td>@(llamada.EsGratis == 9 ? "Sí" : "No")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Título para la tercera tabla -->
+        <h2 class="small-title">Detalle Uso Datos</h2>
+        <div class="table-container mt-2">
+            <!-- Ajuste para acercar la tabla al título -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Total Cantidad de Gigas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var usoDatos in Model.listaUsoDatos)
+                    {
+                        <tr>
+                            <td>@usoDatos.Fecha.ToString("yyyy-MM-dd")</td>
+                            <td>@usoDatos.TotalQGigas</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
