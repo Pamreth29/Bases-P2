@@ -1,7 +1,7 @@
-USE [Proyecto2]
+USE [Telefoneria]
 GO
 
-/****** Object:  Table [dbo].[DetalleFactura]    Script Date: 3/6/2024 02:47:00 ******/
+/****** Object:  Table [dbo].[DetalleFactura]    Script Date: 6/6/2024 01:52:10 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -10,7 +10,9 @@ GO
 
 CREATE TABLE [dbo].[DetalleFactura](
 	[ID_Facturas] [int] NOT NULL,
-	[Monto] [int] NOT NULL,
+	[TotalPreIVA] [int] NOT NULL,
+	[TotalPostIVA] [float] NOT NULL,
+	[MultaPorAtraso] [int] NOT NULL,
  CONSTRAINT [PK_DetalleFactura] PRIMARY KEY CLUSTERED 
 (
 	[ID_Facturas] ASC
