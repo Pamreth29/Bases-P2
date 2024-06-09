@@ -1,5 +1,6 @@
-USE [ProyectoTelefonos]
+USE [NewTelefoneria]
 GO
+/****** Object:  StoredProcedure [dbo].[AperturaCierreFactura]    Script Date: 6/8/2024 4:35:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -10,58 +11,38 @@ ALTER PROCEDURE [dbo].[AperturaCierreEstadosCuenta]
 AS
 BEGIN
     BEGIN TRY
-        BEGIN TRANSACTION tAC_EstadoCuenta
-		--------------- Declaración de variables ---------------
-		DECLARE @Fecha_Pago DATE;
+        
+		------------- Declaración de variables ---------------
+		DECLARE @FechaCorte DATE
+        
+		------------------------- INSERTAR SIGUIENTES FACTURAS -----------------------------------
+		 -- Verificar si el día de la fecha proporcionada es 5
+		IF DAY(@inFechaOperacion) = 5
+		BEGIN
+			BEGIN TRANSACTION tAC_EC
 
-		-------------- Inicializacion de variables ---------------
-		SET @Fecha_Pago = DATEADD(MONTH, 1, @inFechaOperacion);
+				-- Establecer la fecha de apertura como la fecha proporcionada
+				SET @FechaCorte = @inFechaOperacion
 
-		--------------- Validación e Inserción de Facturas ---------------
-        -- Insertar una nueva factura si la @inFechaOperacion es igual a alguna FechaPago de las facturas anteriores
-        --IF EXISTS (
-        --    SELECT 1 
-        --    FROM Facturas F 
-        --    WHERE F.FechaPago = @inFechaOperacion
-        --)
-        --BEGIN
-        --    -- Insertar la nueva factura relacionada al contrato correspondiente
-        --    INSERT INTO [dbo].[Facturas](
-        --        ID_Contrato,
-        --        FechaEmision,
-        --        FechaPago,
-        --        TotalAPagar,
-        --        Estado
-        --    )
-        --    SELECT
-        --        C.Id AS ID_Contrato,
-        --        @inFechaOperacion AS Fecha_Emision,
-        --        @Fecha_Pago AS Fecha_Pago,
-        --        0 AS TotalAPagar,            -- El total a pagar se actualiza conforme a los detalles
-        --        0 AS Estado                  -- Inicializa la factura como PENDIENTE
-        --    FROM Contrato C
-        --    JOIN Facturas F ON F.ID_Contrato = C.Id
-        --    WHERE F.FechaPago = @inFechaOperacion;
-        --END
+				-- Insertar los registros en EstadoCuentaOperador
+				INSERT INTO [dbo].[EstadoCuentaOperador] (
+					ID_Operador,
+					TotalMinIN,
+					TotalMinOut,
+					FechaCorte
+				)
+				SELECT 
+					o.ID AS ID_Operador,
+					0 AS TotalMinIN,
+					0 AS TotalMinOUT,
+					@FechaCorte AS FechaCierre
+				FROM [dbo].[Operador] o
 
-        ---- Insertar las facturas basadas en los contratos con la fecha de operación actual
-        --INSERT INTO [dbo].[Facturas](
-        --    ID_Contrato,
-        --    FechaEmision,
-        --    FechaPago,
-        --    TotalAPagar,
-        --    Estado
-        --)
-        --SELECT
-        --    C.Id AS ID_Contrato,
-        --    @inFechaOperacion AS Fecha_Emision,
-        --    @Fecha_Pago AS Fecha_Pago,
-        --    0 AS TotalAPagar,            -- El total a pagar se actualiza conforme a los detalles
-        --    0 AS Estado                  -- Inicializa la factura como PENDIENTE
-        --FROM Contrato C
-        --WHERE C.Fecha = @inFechaOperacion;
+			COMMIT TRANSACTION tAC_EC
+		END
+
 		-----------------------------------------------------------------
-        COMMIT TRANSACTION tAC_EstadoCuenta
+        
 
     END TRY
     BEGIN CATCH
@@ -70,4 +51,3 @@ BEGIN
         SELECT ERROR_MESSAGE() AS ErrorMessage
     END CATCH
 END
-
