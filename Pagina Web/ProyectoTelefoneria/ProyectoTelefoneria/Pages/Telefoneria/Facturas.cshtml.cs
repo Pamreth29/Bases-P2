@@ -15,7 +15,9 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
 
         public void OnGet(string Numero)
         {
-            if (TempData.ContainsKey("Numero"))
+            if (Numero == null)
+                Numero = "0";
+            else if (TempData.ContainsKey("Numero"))
                 this.Numero = TempData["Numero"].ToString();
             else
                 this.Numero = Numero;
