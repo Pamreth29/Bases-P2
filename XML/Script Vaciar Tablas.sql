@@ -51,7 +51,7 @@ DBCC CHECKIDENT ('UsoDatos', RESEED, 0) --
 delete from dbo.Llamadas
 DBCC CHECKIDENT ('Llamadas', RESEED, 0) 
 
-select * from Clientes --80083385477
+select * from Clientes 
 
 select * from Contrato WHERE ID_TipoTarifa = 7 OR ID_TipoTarifa = 8
 

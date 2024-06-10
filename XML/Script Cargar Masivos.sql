@@ -69,13 +69,6 @@ BEGIN
     CROSS APPLY DD.Operacion.nodes('/FechaOperacion/NuevoContrato') AS T(NuevoContrato)
     JOIN dbo.Clientes C ON NuevoContrato.value('@DocIdCliente', 'VARCHAR(64)') = C.NumIdentificacion;
 
-    -- Se realiza la apertura y cierre de facturas de acuerdo a la fecha de operacion
-    EXEC dbo.AperturaCierreFactura @inFechaOperacion = @FechaActual;
-	
-	
-	--APERTURA DE ESTADOS DE CUENTA
-	EXEC  [dbo].[AperturaCierreEstadosCuenta] @inFechaOperacion = @FechaActual;
-
 	-- Crear una tabla temporal para almacenar los números de factura extraídos del XML
 	DECLARE @TempPagoFactura TABLE (
 		Numero VARCHAR(64),
@@ -121,7 +114,13 @@ BEGIN
 		UsoDatos.value('@QGigas', 'float') AS QGigas
 	FROM @DatosDiarios AS DD
 	CROSS APPLY DD.Operacion.nodes('/FechaOperacion/UsoDatos') AS T(UsoDatos)
+
+	-- Se realiza la apertura y cierre de facturas de acuerdo a la fecha de operacion
+    EXEC dbo.AperturaCierreFactura @inFechaOperacion = @FechaActual;
 	
+	--APERTURA DE ESTADOS DE CUENTA
+	EXEC  [dbo].[AperturaCierreEstadosCuenta] @inFechaOperacion = @FechaActual;
+
 	EXEC dbo.CargaSubDetalles @inFechaOperacion = @FechaActual;
 
 	EXEC dbo.ActualizarDatosFactura @inFechaOperacion = @FechaActual;
@@ -137,6 +136,8 @@ BEGIN
 	--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NO comentar nunca
 
 END;
+
+	EXEC SimularUpdateMultaAtrasoPago;
 
 -- Liberar el documento XML
 EXEC sp_xml_removedocument @id;

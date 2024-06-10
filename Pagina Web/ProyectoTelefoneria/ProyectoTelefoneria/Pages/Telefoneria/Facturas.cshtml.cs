@@ -13,14 +13,10 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
 
         public List<Models.Factura> listaFacturas = new List<Models.Factura>();
 
-        public void OnGet(string Numero)
+        public void OnGet()
         {
-            if (Numero == null)
-                Numero = "0";
-            else if (TempData.ContainsKey("Numero"))
-                this.Numero = TempData["Numero"].ToString();
-            else
-                this.Numero = Numero;
+            if (TempData.ContainsKey("Numero"))
+                Numero = TempData["Numero"].ToString();
 
             obtenerFacturas();
         }
