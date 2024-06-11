@@ -55,15 +55,15 @@ select * from Clientes
 
 select * from Contrato WHERE ID_TipoTarifa = 7 OR ID_TipoTarifa = 8
 
-select * from Factura WHERE ID_Contrato = 5 -- FALTA ARREGLAR LO DE QUE LAS FECHAFACTURA CAMBIAN
+select * from Factura order by ID_Contrato -- FALTA ARREGLAR LO DE QUE LAS FECHAFACTURA CAMBIAN
 
 select * from DetalleFactura where ID_Factura = 5
 
 select * from Descripcion
 
-select * from DetalleLlamadas where ID_DetalleFactura = 4
+select * from DetalleLlamadas order by ID_Llamada
 
-select * from Llamadas where NumeroDe = '89738908' AND NumeroA = '86336401'
+select * from Llamadas where Id = 3024
 
 select * from DetalleLlamadas where ID_Llamada = 53
 

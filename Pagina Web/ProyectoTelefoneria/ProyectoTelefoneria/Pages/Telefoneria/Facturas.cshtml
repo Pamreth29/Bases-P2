@@ -60,6 +60,11 @@
             .btn-consultar:hover {
                 background-color: #95b5cc; /* Cambio de color al hacer hover */
                 border-color: #95b5cc; /* Cambio de color al hacer hover */
+            }
+
+        .alert-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -68,6 +73,7 @@
             Número Consultado: @Model.Numero
         </div>
         <a asp-page="/Index" class="btn btn-dark">Volver</a> <!-- Botón de Volver -->
+
         <div class="table-container">
             <table class="table">
                 <thead>
@@ -99,6 +105,18 @@
                 </tbody>
             </table>
         </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert-container">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @Model.ErrorMessage
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
     </div>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

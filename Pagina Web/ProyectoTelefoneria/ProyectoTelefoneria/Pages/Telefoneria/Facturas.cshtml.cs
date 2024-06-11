@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Data;
-using System.Buffers.Text;
 
 namespace ProyectoTelefoneria.Pages.Telefoneria
 {
@@ -11,20 +10,23 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
         [BindProperty]
         public string Numero { get; set; }
 
+        public int OutResultCodeValue = 0;
+        public string ErrorMessage { get; set; }
+
         public List<Models.Factura> listaFacturas = new List<Models.Factura>();
 
-        public void OnGet()
-        {
+        public void OnGet(string Numero)
+        {       
             if (TempData.ContainsKey("Numero"))
-                Numero = TempData["Numero"].ToString();
+                this.Numero = TempData["Numero"].ToString();
+            else
+                this.Numero = Numero;
 
             obtenerFacturas();
         }
 
         public IActionResult OnPost(string Numero)
         {
-            // Lógica para manejar el detalle de elementos de cobro
-            // Aquí puedes redirigir a otra página o procesar la información según tus necesidades
             TempData["Numero"] = Numero;
             return RedirectToPage("/Telefoneria/DetalleElementosCobro", new { numero = Numero });
         }
@@ -40,32 +42,55 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
                     using (SqlCommand command = new SqlCommand("ObtenerFacturas", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter OutResultCode = new SqlParameter("@OutResultCode", SqlDbType.Int);
+                        OutResultCode.Direction = ParameterDirection.Output;
+
                         command.Parameters.AddWithValue("@inNumero", Numero);
+                        command.Parameters.Add(OutResultCode);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                // Assuming the column indices match the order returned by the stored procedure
-                                var fechaFactura = reader.GetDateTime(0); // Reads the DATE column as DateTime
-                                var fechaLimitePago = reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4); // Handle NULL value
+                                var fechaFactura = reader.GetDateTime(0);
+                                var fechaLimitePago = reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4);
 
                                 Models.Factura f = new Models.Factura
                                 {
                                     FechaFactura = new DateOnly(fechaFactura.Year, fechaFactura.Month, fechaFactura.Day),
                                     MultaAtrasoPago = reader.GetInt32(1),
                                     TotalAntesIVA = reader.GetInt32(2),
-                                    TotalAPagar = Convert.ToSingle(reader.GetDouble(3)), // Convertir el double a float
+                                    TotalAPagar = Convert.ToSingle(reader.GetDouble(3)),
                                     FechaLimitePago = fechaLimitePago == DateTime.MinValue ? DateOnly.MinValue : new DateOnly(fechaLimitePago.Year, fechaLimitePago.Month, fechaLimitePago.Day)
                                 };
                                 listaFacturas.Add(f);
                             }
+                        }
+
+                        OutResultCodeValue = (int)OutResultCode.Value;
+
+                        switch (OutResultCodeValue)
+                        {
+                            case 0:
+                                ErrorMessage = string.Empty;
+                                break;
+                            case 50007:
+                                ErrorMessage = "El numero no existe";
+                                break;
+                            case 50011:
+                                ErrorMessage = "Error en ObtenerFactura";
+                                break;
+                            default:
+                                ErrorMessage = "Error desconocido";
+                                break;
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
+                ErrorMessage = "Excepción: " + ex.Message;
             }
         }
     }

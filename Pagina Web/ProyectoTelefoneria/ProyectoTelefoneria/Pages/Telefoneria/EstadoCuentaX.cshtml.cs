@@ -38,7 +38,12 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
                     using (SqlCommand command = new SqlCommand("ObtenerEstadosCuentaXEmpresa", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter OutResultCode = new SqlParameter("@OutResultCode", SqlDbType.Int);
+                        OutResultCode.Direction = ParameterDirection.Output;
+
                         command.Parameters.AddWithValue("@inNombreEmpresa", "Empresa X");
+                        command.Parameters.Add(OutResultCode);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {

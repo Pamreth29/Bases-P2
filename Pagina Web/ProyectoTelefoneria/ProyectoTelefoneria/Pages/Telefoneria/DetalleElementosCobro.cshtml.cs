@@ -39,7 +39,13 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
                     using (SqlCommand command = new SqlCommand("ObtenerDetalleEC", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter OutResultCode = new SqlParameter("@OutResultCode", SqlDbType.Int);
+                        OutResultCode.Direction = ParameterDirection.Output;
+
+                        command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@inNumero", Numero);
+                        command.Parameters.Add(OutResultCode);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -78,7 +84,13 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
                     using (SqlCommand command = new SqlCommand("ObtenerLlamadas", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter OutResultCode = new SqlParameter("@OutResultCode", SqlDbType.Int);
+                        OutResultCode.Direction = ParameterDirection.Output;
+
+                        command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@inNumero", Numero);
+                        command.Parameters.Add(OutResultCode);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -115,7 +127,13 @@ namespace ProyectoTelefoneria.Pages.Telefoneria
                     using (SqlCommand command = new SqlCommand("ObtenerUsoDatos", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter OutResultCode = new SqlParameter("@OutResultCode", SqlDbType.Int);
+                        OutResultCode.Direction = ParameterDirection.Output;
+
+                        command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@inNumero", Numero);
+                        command.Parameters.Add(OutResultCode);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {

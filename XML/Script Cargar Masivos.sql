@@ -16,6 +16,8 @@ INSERT INTO @FechaOperacion (Fecha)
 SELECT DISTINCT FechaOperacion.value ('@fecha', 'DATE') AS Fecha
 FROM @XML.nodes('/Operaciones/FechaOperacion') AS T(FechaOperacion);
 
+DECLARE @OutResultCode INT;
+
 WHILE EXISTS (SELECT 1 FROM @FechaOperacion)
 BEGIN
     DECLARE @DatosDiarios TABLE (Fecha DATE, Operacion XML);
@@ -102,8 +104,14 @@ BEGIN
 	FROM @DatosDiarios AS DD
 	CROSS APPLY DD.Operacion.nodes('/FechaOperacion/LlamadaTelefonica') AS T(NuevoContrato)
 
+		-- Se realiza la apertura y cierre de facturas de acuerdo a la fecha de operacion
+    EXEC dbo.AperturaCierreFactura @inFechaOperacion = @FechaActual, @OutResultCode = @OutResultCode OUTPUT;
+	
+	--APERTURA DE ESTADOS DE CUENTA
+	EXEC  [dbo].[AperturaCierreEstadosCuenta] @inFechaOperacion = @FechaActual, @OutResultCode = @OutResultCode OUTPUT;
+
 	--Para insertar las llamadas que no son locales
-	EXEC [dbo].[InsertarNoLocales] @inFechaOperacion = @FechaActual;
+	EXEC [dbo].[InsertarNoLocales] @inFechaOperacion = @FechaActual, @OutResultCode = @OutResultCode OUTPUT;
 
 
 	-- Cargar Uso Datos
@@ -115,19 +123,13 @@ BEGIN
 	FROM @DatosDiarios AS DD
 	CROSS APPLY DD.Operacion.nodes('/FechaOperacion/UsoDatos') AS T(UsoDatos)
 
-	-- Se realiza la apertura y cierre de facturas de acuerdo a la fecha de operacion
-    EXEC dbo.AperturaCierreFactura @inFechaOperacion = @FechaActual;
-	
-	--APERTURA DE ESTADOS DE CUENTA
-	EXEC  [dbo].[AperturaCierreEstadosCuenta] @inFechaOperacion = @FechaActual;
+	EXEC dbo.CargaSubDetalles @inFechaOperacion = @FechaActual, @OutResultCode = @OutResultCode OUTPUT;
 
-	EXEC dbo.CargaSubDetalles @inFechaOperacion = @FechaActual;
-
-	EXEC dbo.ActualizarDatosFactura @inFechaOperacion = @FechaActual;
+	EXEC dbo.ActualizarDatosFactura @inFechaOperacion = @FechaActual, @OutResultCode = @OutResultCode OUTPUT;
 	IF DAY(@FechaActual) = 5
 		BEGIN
 			-- Ejecuta el procedimiento almacenado
-			EXEC [dbo].[ActualizarDatosEstadosCuenta] @inFechaOperacion = @FechaActual;
+			EXEC [dbo].[ActualizarDatosEstadosCuenta] @inFechaOperacion = @FechaActual, @OutResultCode = @OutResultCode OUTPUT;
 		END
 
 	--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NO comentar nunca
@@ -137,7 +139,7 @@ BEGIN
 
 END;
 
-	EXEC SimularUpdateMultaAtrasoPago;
+	EXEC SimularUpdateMultaAtrasoPago @OutResultCode = @OutResultCode OUTPUT;
 
 -- Liberar el documento XML
 EXEC sp_xml_removedocument @id;

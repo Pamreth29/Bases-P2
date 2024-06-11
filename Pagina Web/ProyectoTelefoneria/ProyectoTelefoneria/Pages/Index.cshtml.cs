@@ -17,8 +17,15 @@ namespace ProyectoTelefoneria.Pages
         {
             if (FormType == "Facturas")
             {
-                TempData["Numero"] = Numero;
-                return new JsonResult(new { success = true, redirectUrl = Url.Page("/Telefoneria/Facturas") });
+                if (Numero != null)
+                {
+                    TempData["Numero"] = Numero;
+                    return new JsonResult(new { success = true, redirectUrl = Url.Page("/Telefoneria/Facturas") });
+                } else
+                {
+                    TempData["Numero"] = "";
+                    return new JsonResult(new { success = true, redirectUrl = Url.Page("/Telefoneria/Facturas") });
+                }
             }
             else if (FormType == "EstadoCuenta")
             {
